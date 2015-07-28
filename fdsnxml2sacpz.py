@@ -4,7 +4,7 @@ from __future__ import print_function
 
 import sys, optparse, fnmatch
 import obspy.station.stationxml, obspy.station.response
-import seis.paz.fdsn
+import fdsnws.paz
 
 description="%prog - convert FDSN Station XML to SAC Poles and Zeros"
 
@@ -32,19 +32,19 @@ if not arg:
 
 for xml_filename in arg:
     obspy_inventory = obspy.station.stationxml.read_StationXML(xml_filename)
-    pz_list = seis.paz.fdsn.inventory2sacpz(obspy_inventory, input_unit=opt.input_unit)
+    pz_list = fdsnws.paz.inventory2sacpz(obspy_inventory, input_unit=opt.input_unit)
 
     for pz in pz_list:
         if opt.verbose:
-            print (seis.paz.fdsn.nslc(pz), nslc_pattern)
-        if not fnmatch.fnmatch(seis.paz.fdsn.nslc(pz), nslc_pattern):
+            print (fdsnws.paz.nslc(pz), nslc_pattern)
+        if not fnmatch.fnmatch(fdsnws.paz.nslc(pz), nslc_pattern):
             continue
             print ("matched")
         if opt.time and not pz["start_date"] <= opt.time <= pz["end_date"]:
             continue
 
         if opt.prefix:
-            fname = "%s_%s_%s_%s" % (opt.prefix, seis.paz.fdsn.nslc(pz), pz["start_date"], pz["end_date"])
+            fname = "%s_%s_%s_%s" % (opt.prefix, fdsnws.paz.nslc(pz), pz["start_date"], pz["end_date"])
             ofile = file(fname, "w")
         else:
             ofile = sys.stdout
