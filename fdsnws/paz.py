@@ -36,6 +36,13 @@ pz_header_template = """* **********************************
 
 valid_units = { "M":0, "M/S":1, "M/S**2":2 }
 
+def rectify_unit(unit):
+    unit = unit.upper()
+    if unit in [ "M/S/S", "M/S^2" ]:
+        unit = "M/S**2"
+    assert unit in valid_units
+    return unit
+
 def nslc(pz):
     return "%(net)s.%(sta)s.%(loc)s.%(cha)s" % pz
 
@@ -46,10 +53,7 @@ def obspy_nsc2sacpz(net, sta, cha, input_unit=None):
     """
 
     if input_unit is not None:
-        input_unit = input_unit.upper()
-        if input_unit in [ "M/S/S", "M/S^2" ]:
-            input_unit = "M/S**2" 
-        assert input_unit in valid_units
+        input_unit = rectify_unit(input_unit)
 
     pz = {
         "net" : net.code,
