@@ -3,7 +3,8 @@
 from __future__ import print_function
 
 import sys, optparse, fnmatch
-import obspy.station.stationxml, obspy.station.response
+from obspy import read_inventory
+import obspy.core.inventory.response as response
 import fdsnws.paz
 
 description="%prog - convert FDSN Station XML to SAC Poles and Zeros"
@@ -31,7 +32,8 @@ if not arg:
     arg = [ sys.stdin ]
 
 for xml_filename in arg:
-    obspy_inventory = obspy.station.stationxml.read_StationXML(xml_filename)
+#   obspy_inventory = stationxml.read_StationXML(xml_filename)
+    obspy_inventory = read_inventory(xml_filename)
     pz_list = fdsnws.paz.inventory2sacpz(obspy_inventory, input_unit=opt.input_unit)
 
     for pz in pz_list:
