@@ -1,7 +1,5 @@
 import sys
-#import obspy.io.stationxml as stationxml
-#from obspy import read_inventory
-import obspy.core.inventory.response as response
+from obspy.core.inventory.response import PolesZerosResponseStage
 
 pz_header_template = """* **********************************
 * NETWORK   (KNETWK): %(net)s

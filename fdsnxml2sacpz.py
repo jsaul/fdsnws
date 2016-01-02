@@ -32,7 +32,6 @@ if not arg:
     arg = [ sys.stdin ]
 
 for xml_filename in arg:
-#   obspy_inventory = stationxml.read_StationXML(xml_filename)
     obspy_inventory = read_inventory(xml_filename)
     pz_list = fdsnws.paz.inventory2sacpz(obspy_inventory, input_unit=opt.input_unit)
 
