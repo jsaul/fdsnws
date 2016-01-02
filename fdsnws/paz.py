@@ -85,7 +85,7 @@ def obspy_nsc2sacpz(net, sta, cha, input_unit=None):
 
     pz_stage = None
     for stage in cha.response.response_stages:
-        if type(stage) == response.PolesZerosResponseStage:
+        if type(stage) == PolesZerosResponseStage:
             if len(stage.poles)>0 or len(stage.zeros)>0:
                 if pz_stage is not None:
                     sys.stderr.write("%s: more than one PZ stage found\n" % nslc(pz))

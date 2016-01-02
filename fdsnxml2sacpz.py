@@ -3,9 +3,7 @@
 from __future__ import print_function
 
 import sys, optparse, fnmatch
-from obspy import read_inventory
-import obspy.core.inventory.response as response
-import fdsnws.paz
+import fdsnws, fdsnws.paz
 
 description="%prog - convert FDSN Station XML to SAC Poles and Zeros"
 
@@ -24,7 +22,8 @@ p.add_option("-v", "--verbose",      action="store_true",         help="run in v
 
 (opt, arg) = p.parse_args()
 if opt.time:
-    opt.time = str(obspy.core.UTCDateTime(opt.time))
+    from obspy.core import UTCDateTime
+    opt.time = str(UTCDateTime(opt.time))
 
 nslc_pattern = "%s.%s.%s.%s" % (opt.net, opt.sta, opt.loc, opt.cha)
 
@@ -32,8 +31,8 @@ if not arg:
     arg = [ sys.stdin ]
 
 for xml_filename in arg:
-    obspy_inventory = read_inventory(xml_filename)
-    pz_list = fdsnws.paz.inventory2sacpz(obspy_inventory, input_unit=opt.input_unit)
+    inventory = fdsnws.read_station_xml(xml_filename)
+    pz_list = fdsnws.paz.inventory2sacpz(inventory, input_unit=opt.input_unit)
 
     for pz in pz_list:
         if opt.verbose:
