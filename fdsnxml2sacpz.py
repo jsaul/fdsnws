@@ -44,7 +44,7 @@ for xml_filename in arg:
             continue
 
         if opt.prefix:
-            fname = "%s_%s_%s_%s" % (opt.prefix, fdsnws.paz.nslc(pz), pz["start_date"], pz["end_date"])
+            fname = "%s%s_%s_%s" % (opt.prefix, fdsnws.paz.nslc(pz), pz["start_date"], pz["end_date"])
             ofile = file(fname, "w")
         else:
             ofile = sys.stdout
