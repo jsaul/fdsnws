@@ -35,17 +35,19 @@ for xml_filename in arg:
     pz_list = fdsnws.paz.inventory2sacpz(inventory, input_unit=opt.input_unit)
 
     for pz in pz_list:
+        if not pz: # XXX FIXME
+            continue
         if opt.verbose:
-            print (fdsnws.paz.nslc(pz), nslc_pattern)
+            print (fdsnws.paz.nslc(pz), nslc_pattern, file=sys.stderr)
         if not fnmatch.fnmatch(fdsnws.paz.nslc(pz), nslc_pattern):
             continue
-            print ("matched")
-        if opt.time and not pz["start_date"] <= opt.time <= pz["end_date"]:
+            print ("matched", file=sys.stderr)
+        if opt.time and not pz.start_date <= opt.time <= pz.end_date:
             continue
 
         if opt.prefix:
-            fname = "%s%s_%s_%s" % (opt.prefix, fdsnws.paz.nslc(pz), pz["start_date"], pz["end_date"])
+            fname = "%s%s_%s_%s" % (opt.prefix, fdsnws.paz.nslc(pz), pz.start_date, pz.end_date)
             ofile = file(fname, "w")
         else:
             ofile = sys.stdout
-        ofile.write(pz["sacpz"])
+        ofile.write(pz.sacpz)
