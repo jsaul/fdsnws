@@ -39,6 +39,8 @@ valid_units = { "M":0, "M/S":1, "M/S**2":2 }
 
 def rectify_unit(unit):
     unit = unit.upper()
+    # for accelerometers several unit strings have been
+    # seen in the wild. We don't want to support them all.
     if unit in [ "M/S/S", "M/S^2" ]:
         unit = "M/S**2"
     try:
