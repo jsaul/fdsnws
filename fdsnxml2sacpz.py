@@ -45,7 +45,7 @@ for xml_filename in arg:
 
         if opt.prefix:
             fname = "%s%s_%s_%s" % (opt.prefix, fdsnws.paz.nslc(pz), pz["start_date"], pz["end_date"])
-            ofile = file(fname, "w")
+            ofile = open(fname, "w")
         else:
             ofile = sys.stdout
         ofile.write(pz["sacpz"])
