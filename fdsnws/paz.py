@@ -46,7 +46,7 @@ def rectify_unit(unit):
     try:
         assert unit in valid_units
     except:
-        print unit
+        print(unit)
         raise
     return unit
 
@@ -125,7 +125,7 @@ def obspy_nsc2sacpz(net, sta, cha, input_unit=None):
     elif pz_stage.pz_transfer_function_type == "LAPLACE (HERTZ)":
         factor = 6.283185307179586
     else:
-        raise TypeError, "%s: unknown transfer function type '%s'\n" % (nslc(pz),pz_stage.pz_transfer_function_type)
+        raise TypeError("%s: unknown transfer function type '%s'" % (nslc(pz),pz_stage.pz_transfer_function_type))
 
     if input_unit is not None:
         if input_unit != pz_stage.input_units:
@@ -136,7 +136,7 @@ def obspy_nsc2sacpz(net, sta, cha, input_unit=None):
                 # add one or two zeros
                 pz_stage.zeros.extend(dnz*[0.])
             else:
-                raise NotImplementedError, "removal of zeros not implemented"
+                raise NotImplementedError("removal of zeros not implemented")
         pz.snj = input_unit
     else:
         pz.snj = pz.sni
